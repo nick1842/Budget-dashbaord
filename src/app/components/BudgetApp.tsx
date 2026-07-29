@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import DashboardStats from "./DashboardStats";
-import SpendingBreakdown from "./SpendingBreakdown";
-import SpendingChart from "./SpendingChart";
-import BudgetAlerts from "./BudgetAlerts";
-import DashboardHeader from "./DashboardHeader";
-import DashboardActions from "./DashboardActions";
+
+import HomePage from "./pages/HomePage";
+import BudgetsPage from "./pages/BudgetsPage";
+import SavingsPage from "./pages/SavingsPage";
+import TransactionsPage from "./pages/TransactionsPage";
+
 import BottomNav from "./BottomNav";
+
 
 type Transaction = {
   id: number;
@@ -17,113 +18,143 @@ type Transaction = {
   note: string | null;
 };
 
+
 export default function BudgetApp() {
 
-  const [refresh, setRefresh] = useState(0);
-  const [range, setRange] = useState("month");
 
   const [page, setPage] = useState("home");
+
+
+  const [refresh, setRefresh] = useState(0);
+
+
+  const [budgetRefresh, setBudgetRefresh] =
+    useState(0);
+
+
+  const [range, setRange] =
+    useState("month");
+
+
+  const [editingBudget, setEditingBudget] =
+    useState<any>(null);
+
 
   const [editingTransaction, setEditingTransaction] =
     useState<Transaction | null>(null);
 
-  const [editingBudget, setEditingBudget] = useState<any>(null);
 
 
   function refreshData() {
+
     setRefresh((value) => value + 1);
+
   }
+
 
 
   function refreshBudgets() {
-    setRefresh((value) => value + 1);
+
+    setBudgetRefresh((value) => value + 1);
+
   }
 
 
+
   return (
+
     <div className="w-full">
 
-      <main className="w-full max-w-2xl mx-auto px-4">
+
+      <main
+        className="
+        w-full
+        max-w-2xl
+        mx-auto
+        px-4
+        pb-28
+        "
+      >
+
 
         {page === "home" && (
-          <>
 
-            <DashboardHeader />
+          <HomePage
 
-            <BudgetAlerts
-  refresh={refresh}
-  onEdit={setEditingBudget}
-  onBudgetChanged={refreshBudgets}
-/>
+            refresh={refresh}
 
-            <DashboardStats
-              refresh={refresh}
-              range={range}
-              setRange={setRange}
-            />
+            range={range}
 
-            <SpendingChart
-              refresh={refresh}
-              range={range}
-            />
+            setRange={setRange}
 
-            <SpendingBreakdown
-              refresh={refresh}
-            />
+          />
 
-          </>
         )}
 
 
 
         {page === "budgets" && (
-          <DashboardActions
+
+          <BudgetsPage
+
             refresh={refresh}
-            refreshData={refreshData}
+
             refreshBudgets={refreshBudgets}
+
             editingBudget={editingBudget}
+
             setEditingBudget={setEditingBudget}
-            editingTransaction={editingTransaction}
-            setEditingTransaction={setEditingTransaction}
+
           />
+
         )}
 
 
 
         {page === "savings" && (
-          <DashboardActions
-            refresh={refresh}
+
+          <SavingsPage
+
             refreshData={refreshData}
-            refreshBudgets={refreshBudgets}
-            editingBudget={editingBudget}
-            setEditingBudget={setEditingBudget}
-            editingTransaction={editingTransaction}
-            setEditingTransaction={setEditingTransaction}
+
           />
+
         )}
 
 
 
         {page === "transactions" && (
-          <DashboardActions
+
+          <TransactionsPage
+
             refresh={refresh}
+
             refreshData={refreshData}
-            refreshBudgets={refreshBudgets}
-            editingBudget={editingBudget}
-            setEditingBudget={setEditingBudget}
+
             editingTransaction={editingTransaction}
-            setEditingTransaction={setEditingTransaction}
+
+            setEditingTransaction={
+              setEditingTransaction
+            }
+
           />
+
         )}
+
 
       </main>
 
 
+
       <BottomNav
+
         setPage={setPage}
+
       />
 
 
     </div>
+
   );
+
 }

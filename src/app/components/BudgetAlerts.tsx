@@ -13,14 +13,10 @@ const categoryIcons: Record<string, string> = {
 };
 
 
-export default function BudgetProgress({
+export default function BudgetAlerts({
   refresh,
-  onEdit,
-  onBudgetChanged,
 }: {
   refresh: number;
-  onEdit: (budget: any) => void;
-  onBudgetChanged: () => void;
 }) {
 
   const [budgets, setBudgets] = useState<any[]>([]);
@@ -55,7 +51,7 @@ export default function BudgetProgress({
     );
 
 
-    onBudgetChanged();
+    
   }
 
 
@@ -320,13 +316,7 @@ export default function BudgetProgress({
 
               <div className="flex gap-4 mt-4">
 
-                <button
-                  onClick={() => onEdit(budget)}
-                  className="text-blue-400"
-                >
-                  ✏️ Edit
-                </button>
-
+                
 
                 <button
                   onClick={() => deleteBudget(budget.id)}
