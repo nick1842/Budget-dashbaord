@@ -1,11 +1,11 @@
-import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
 
 const adapter = new PrismaBetterSQLite3({
-  url: "./prisma/dev.db",
+  url: process.env.DATABASE_URL!,
 });
 
-const globalForPrisma = global as unknown as {
+const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient;
 };
 
