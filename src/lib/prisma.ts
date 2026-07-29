@@ -1,7 +1,7 @@
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
 
-const adapter = new PrismaBetterSqlite3({
+const adapter = new PrismaBetterSQLite3({
   url: "./prisma/dev.db",
 });
 

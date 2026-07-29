@@ -3,35 +3,26 @@ import { NextResponse } from "next/server";
 
 
 export async function GET() {
-  const goals = await prisma.savingsGoal.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      contributions: {
-        orderBy: {
-          date: "desc",
-        },
+  try {
+
+    const goals = await prisma.savingsGoal.findMany({
+      include: {
+        contributions: true,
       },
-    },
-  });
+    });
 
+    return NextResponse.json(goals);
 
-  const formattedGoals = goals.map((goal) => ({
-    id: goal.id,
-    name: goal.name,
-    target: goal.target,
-    createdAt: goal.createdAt,
-    saved: goal.contributions.reduce(
-      (total, contribution) =>
-        total + contribution.amount,
-      0
-    ),
-    contributions: goal.contributions,
-  }));
+  } catch (error) {
 
+    console.error("SAVINGS ERROR:", error);
 
-  return NextResponse.json(formattedGoals);
+    return NextResponse.json(
+      [],
+      { status: 200 }
+    );
+
+  }
 }
 export async function PUT(request: Request) {
   const body = await request.json();

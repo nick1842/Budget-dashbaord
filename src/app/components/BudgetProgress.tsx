@@ -67,10 +67,20 @@ export default function BudgetProgress({
       const budgetRes = await fetch("/api/budgets");
       const budgetData = await budgetRes.json();
 
+if (!Array.isArray(budgetData)) {
+  setBudgets([]);
+} else {
+  setBudgets(budgetData);
+}
+
 
       const transactionRes = await fetch("/api/transactions");
       const transactions = await transactionRes.json();
 
+if (!Array.isArray(transactions)) {
+  setSpending({});
+  return;
+}
 
 
       const today = new Date();
