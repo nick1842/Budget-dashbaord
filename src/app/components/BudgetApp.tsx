@@ -7,6 +7,7 @@ import SpendingChart from "./SpendingChart";
 import BudgetAlerts from "./BudgetAlerts";
 import DashboardHeader from "./DashboardHeader";
 import DashboardActions from "./DashboardActions";
+import BottomNav from "./BottomNav";
 
 type Transaction = {
   id: number;
@@ -19,72 +20,107 @@ type Transaction = {
 export default function BudgetApp() {
 
   const [refresh, setRefresh] = useState(0);
-  const [budgetRefresh, setBudgetRefresh] = useState(0);
   const [range, setRange] = useState("month");
+
+  const [page, setPage] = useState("home");
 
   const [editingTransaction, setEditingTransaction] =
     useState<Transaction | null>(null);
 
   const [editingBudget, setEditingBudget] = useState<any>(null);
 
-  const [savingsRefresh, setSavingsRefresh] = useState(0);
-
 
   function refreshData() {
     setRefresh((value) => value + 1);
   }
 
+
   function refreshBudgets() {
-    setBudgetRefresh((value) => value + 1);
+    setRefresh((value) => value + 1);
   }
 
 
   return (
     <div className="w-full">
 
-      <main className="w-full max-w-2xl mx-auto px-4 pb-6">
+      <main className="w-full max-w-2xl mx-auto px-4">
 
-        <DashboardHeader />
+        {page === "home" && (
+          <>
 
-        <BudgetAlerts
-          refresh={refresh}
-        />
+            <DashboardHeader />
 
-        <DashboardStats
-          refresh={refresh}
-          range={range}
-          setRange={setRange}
-        />
+            <BudgetAlerts
+              refresh={refresh}
+            />
 
-        <SpendingChart
-          refresh={refresh}
-          range={range}
-        />
+            <DashboardStats
+              refresh={refresh}
+              range={range}
+              setRange={setRange}
+            />
 
-        <SpendingBreakdown
-          refresh={refresh}
-        />
+            <SpendingChart
+              refresh={refresh}
+              range={range}
+            />
+
+            <SpendingBreakdown
+              refresh={refresh}
+            />
+
+          </>
+        )}
 
 
-        <DashboardActions
 
-          refresh={refresh}
+        {page === "budgets" && (
+          <DashboardActions
+            refresh={refresh}
+            refreshData={refreshData}
+            refreshBudgets={refreshBudgets}
+            editingBudget={editingBudget}
+            setEditingBudget={setEditingBudget}
+            editingTransaction={editingTransaction}
+            setEditingTransaction={setEditingTransaction}
+          />
+        )}
 
-          refreshData={refreshData}
 
-          refreshBudgets={refreshBudgets}
 
-          editingBudget={editingBudget}
+        {page === "savings" && (
+          <DashboardActions
+            refresh={refresh}
+            refreshData={refreshData}
+            refreshBudgets={refreshBudgets}
+            editingBudget={editingBudget}
+            setEditingBudget={setEditingBudget}
+            editingTransaction={editingTransaction}
+            setEditingTransaction={setEditingTransaction}
+          />
+        )}
 
-          setEditingBudget={setEditingBudget}
 
-          editingTransaction={editingTransaction}
 
-          setEditingTransaction={setEditingTransaction}
-
-        />
+        {page === "transactions" && (
+          <DashboardActions
+            refresh={refresh}
+            refreshData={refreshData}
+            refreshBudgets={refreshBudgets}
+            editingBudget={editingBudget}
+            setEditingBudget={setEditingBudget}
+            editingTransaction={editingTransaction}
+            setEditingTransaction={setEditingTransaction}
+          />
+        )}
 
       </main>
+
+
+      <BottomNav
+        setPage={setPage}
+      />
+
 
     </div>
   );
