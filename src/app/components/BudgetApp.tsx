@@ -51,8 +51,10 @@ export default function BudgetApp() {
             <DashboardHeader />
 
             <BudgetAlerts
-              refresh={refresh}
-            />
+  refresh={refresh}
+  onEdit={setEditingBudget}
+  onBudgetChanged={refreshBudgets}
+/>
 
             <DashboardStats
               refresh={refresh}

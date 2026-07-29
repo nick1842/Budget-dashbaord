@@ -35,3 +35,12 @@ button {
   cursor: pointer;
   touch-action: manipulation;
 }
+html,
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+button {
+  touch-action: manipulation;
+}
